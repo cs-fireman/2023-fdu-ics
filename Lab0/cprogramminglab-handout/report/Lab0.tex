@@ -1,0 +1,77 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, graphicx}
+\usepackage[bookmarks=true, colorlinks, citecolor=blue, linkcolor=black]{hyperref}
+% 导言区
+
+\title{计算机系统基础\\
+Lab0 C-programming} % 标题
+\author{姓名：傅文杰\\
+学号：22300240028} % 作者
+\date{\today} % 日期
+
+\usepackage{listings}
+
+\lstset{language=C++}%这条命令可以让LaTeX排版时将C++键字突出显示
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\begin{document}
+
+\maketitle % 生成标题
+
+\section{补全queue.h}
+在struct中增加成员变量，要求q\_size和q\_insert\_tail函数在O(1)的时间复杂度内完成
+$\Rightarrow$ 需要在读的过程中记录队列的长度和尾元素
+$\Rightarrow$ 尾指针list\_ele\_t *tail和队列长度size\_t size需要成为成员变量
+% \begin{lstlisting}
+%     for (int i = 0; i < n; i ++) {
+
+%     } 
+% \end{lstlisting}
+\section{补全queue.c}
+\subsection{NULL检查}
+\begin{enumerate}
+    \item 当为一个指针分配内存(malloc)时
+    \item 当函数中传入指针参数时
+\end{enumerate}
+需要对pointer==NULL的情况进行特殊讨论
+\subsection{创建队列：queue\_new}
+\begin{enumerate}
+    \item NULL检查(q)
+    \item 初始化成员变量(q-\textgreater head,q-\textgreater tail,q-\textgreater size)
+\end{enumerate}
+\subsection{释放队列内存：queue\_free}
+\begin{enumerate}
+    \item NULL检查(q)
+    \item 创建临时指针(temp)记录头指针
+    \item 更新头指针(q-\textgreater head = q-\textgreater head -\textgreater next)
+    \item 释放队列元素中指针的内存(temp-\textgreater value)
+    \item 释放临时指针的内存(temp)
+\end{enumerate}
+\subsection{头(尾)插：queue\_insert\_head(tail)}
+\begin{enumerate}
+    \item NULL检查(q,s,newh(newt),newh(newt)-\textgreater value)
+    \item 将s复制到新节点的value中(strcpy(newh(newt)-\textgreater value, s))
+    \item 更新队列(q-\textgreater head, q-\textgreater tail, q-\textgreater size)
+\end{enumerate}
+\subsection{头删：queue\_remove\_head}
+\begin{enumerate}
+    \item NULL检查(q, \textbf{q-\textgreater head})
+    \item 创建临时指针(temp)记录头指针
+    \item 更新头指针
+    \item 复制bufsize - 1个字符到缓冲，注意加上'\textbackslash 0'
+    \item 释放临时变量的内存
+    \item 更新队列(q-\textgreater tail, q-\textgreater size)
+\end{enumerate}
+\subsection{求队列长度：queue\_size}
+直接返回q-\textgreater size
+\subsection{翻转队列：queue\_reverse}
+\begin{enumerate}
+    \item NULL检查(q,q-\textgreater head)，特殊情况(长度为1)不用翻转
+    \item 初始化三个指针：前驱指针(prev)，当前指针(current)，后继指针(next)
+    \item 循环：后继指针往前走，当前指针的next指针回头指向前驱指针，前驱指针和当前指针往前走
+    \item 头尾指针互换
+\end{enumerate}
+
+
+\end{document}
+

@@ -1,0 +1,195 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, graphicx, array}
+\usepackage[bookmarks=true, colorlinks, citecolor=blue, linkcolor=black]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{inconsolata}
+
+% 定义可能使用到的颜色
+\definecolor{CPPLight}  {HTML} {686868}
+\definecolor{CPPSteel}  {HTML} {888888}
+\definecolor{CPPDark}   {HTML} {262626}
+\definecolor{CPPBlue}   {HTML} {4172A3}
+\definecolor{CPPGreen}  {HTML} {487818}
+\definecolor{CPPBrown}  {HTML} {A07040}
+\definecolor{CPPRed}    {HTML} {AD4D3A}
+\definecolor{CPPViolet} {HTML} {7040A0}
+\definecolor{CPPGray}  {HTML} {B8B8B8}
+\lstset{basicstyle=\ttfamily,breaklines=true}
+\lstset{
+    columns=fixed,       
+    numbers=left,                                        % 在左侧显示行号
+    numbersep=5pt,
+    frame=none,                                          % 不显示背景边框
+    backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+    keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+    numberstyle=\footnotesize\color{red},           % 设定行号格式
+    commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
+    stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+    showstringspaces=false,                              % 不显示字符串中的空格
+    language=c,                                        % 设置语言
+    xleftmargin=1em, %整体距左侧边线的距离为2em
+    morekeywords={alignas,continute,friend,register,true,alignof,decltype,goto,
+    reinterpret_cast,try,asm,defult,if,return,typedef,auto,delete,inline,short,
+    typeid,bool,do,int,signed,typename,break,double,long,sizeof,union,case,
+    dynamic_cast,mutable,static,unsigned,catch,else,namespace,static_assert,using,
+    char,enum,new,static_cast,virtual,char16_t,char32_t,explict,noexcept,struct,
+    void,export,nullptr,switch,volatile,class,extern,operator,template,wchar_t,
+    const,false,private,this,while,constexpr,float,protected,thread_local,
+    const_cast,for,public,throw,std},
+}
+% 导言区
+
+\title{计算机系统基础 \\ Homework 1} % 标题
+\author{姓名：傅文杰\\学号:22300240028} % 作者
+\date{\today} % 日期
+
+\begin{document}
+
+\maketitle % 生成标题
+
+\section{Number Conversion} % 一级标题
+先用按权乘数码相加法转化为十进制，然后用模n取余法转化为n进制
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Octal} & \textbf{Binary} & \textbf{Decimal} & \textbf{Hexadecimal} \\ \hline
+    2527           & 101 0101 0111   & 1367             & 0x557                     \\ \hline
+    753            & 1 1110 1011     & 491              & 0x1EB                     \\ \hline
+    3746           & 111 1110 0110   & 2022             & 0x7E6                     \\ \hline
+    177776         & 1111 1111 1111 1110& 65534         & 0xFFFE                     \\ \hline
+    \end{tabular}
+\end{table}
+\section{Operations}
+\subsection{给出A = 0xF4, B = 0x11，则}
+\noindent
+A \& B = 0x10 \\
+A $|$ B = 0xF5 \\
+A \^{} B = 0xE5 \\
+\~{} A $|$ \~{} B = 0xEF \\
+A \&\& B = 1 \\
+A $||$ B = 1
+\subsection{用C语言将x的前半部分和y的后半部分结合}
+\begin{lstlisting}
+#include <stdio.h>
+int combination(int x, int y)
+{
+    return (x & 0xFFFF0000) + (y & 0x0000FFFF);
+}
+int main() {
+    int x, y;
+    scanf("%x%x", &x, &y);
+    int r = combination(x, y);
+    printf("%x\n", r);
+    return 0;
+}
+\end{lstlisting}
+\subsection{shift operations}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|}
+    \hline
+    x            & \textbf{}       & x\textless{}\textless{}5 & \textbf{}    & x\textgreater{}\textgreater{}3(logic) &              & x\textgreater{}\textgreater{}3(arithmetic) &              \\ \hline
+    \textbf{Hex} & \textbf{Binary} & \textbf{Binary}          & \textbf{Hex} & \textbf{Binary}                       & \textbf{Hex} & \textbf{Binary}                            & \textbf{Hex} \\ \hline
+    0xD1         & 1101 0001       & 0010 0000                & 0x20         & 0001 1010                             & 0x1A         & 1111 1010                                  & 0xFA             \\ \hline
+    0x92         & 1001 0010       & 0100 0000                & 0x40         & 0001 0010                             & 0x12         & 1111 0010                                  & 0xF2             \\ \hline
+    0x4F         & 0100 1111       & 1110 0000                & 0xE0         & 0000 1001                             & 0x09         & 0000 1001                                  & 0x09             \\ \hline
+    0x36         & 0011 0110       & 1100 0000                & 0xC0         & 0000 0110                             & 0x06         & 0000 0110                                  & 0x06             \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Two's Complement Encodings}
+补码的补码就是源码，正数的补码就是自己，负数的补码就是相反数
+\begin{table}[]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Value} & \textbf{Two's Complement} \\ \hline
+    66             & 0100 0010                      \\ \hline
+    -21            & 1110 1011                          \\ \hline
+    127            & 0111 1111                          \\ \hline
+    -49            & 1100 1111                          \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Two's Complement Multiplication}
+
+参考资料：\href{https://blog.csdn.net/qq_39873850/article/details/110119810}{二进制补码计算——有符号数的乘法}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    x          & y          & x·y & Truncated x·y \\ \hline
+    {[}1000{]} & {[}0001{]} & {[}1111 1000{]} = -8&{[}1000{]} = -8               \\ \hline
+    {[}0100{]} & {[}0101{]} & {[}0001 0100{]} = 20&{[}0100{]} = 4               \\ \hline
+    {[}1101{]} & {[}0010{]} & {[}1111 1010{]} = -6&{[}1010{]} = -6               \\ \hline
+    {[}1110{]} & {[}1110{]} & {[}0000 0100{]} = 4&{[}0100{]} = 4             \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Two's Complement}
+\subsection{$(x<y)==(-x>-y)$}
+\noindent
+该表达式为假\\
+反例：x=Tmin, y=0\\
+错证：
+证明：
+\begin{equation}
+    \begin{aligned}
+    &     -x > -y \\
+    &\Leftrightarrow NOT(x) + 1 > NOT(y) + 1 \\
+    &\Leftrightarrow 2^{32} - 1 - x + 1 > 2^{32} - 1 - y + 1\\
+    &\Leftrightarrow x < y    
+    \end{aligned}
+    \nonumber
+\end{equation}
+\subsection{ $((x + y) << 4) + y - x == 17 * y + 15 * x$}
+\noindent
+该表达式为真\\
+证明：
+\begin{equation}
+    \begin{aligned}
+        ((x + y) << 4) + y - x &= (x + y) * 2^4 + y - x\\
+        &= 16x + 16y + y - x\\
+        &= 17y + 15x
+    \end{aligned}
+    \nonumber
+\end{equation}
+\subsection{$\sim x + \sim y + 1 == \sim (x + y)$}
+\noindent
+该表达式为真\\
+证明：
+\begin{equation}
+    \begin{aligned}
+        left &= (2^{32} - 1 - x) + (2^{32} - 1 - y) + 1\\
+        &= 2^{32} - 1 + (2^{32} - 1 - (x + y) + 1)\\
+        &= 2^{32} - 1 - (x + y)\\
+        &= NOT(x + y)\\
+        &= right
+    \end{aligned}
+\nonumber
+\end{equation}
+\subsection{$(ux - uy) == -(unsigned)(y - x)$}
+\noindent
+该表达式为真\\
+位表示没有区别\\
+错反：
+反例：\\
+当$ux = 1, uy = 2$时\\
+$ux - uy = -1 + 2^{32} \ne -1$
+
+\subsection{$ ((x >> 2) << 2) <= x$}
+\noindent
+该表达式为真\\
+证明：
+\begin{equation}
+    \begin{aligned}
+        (x >> 2) << 2 &= \lfloor \frac{x}{4}\rfloor \cdot 4
+        &\le \frac{x}{4} \cdot 4
+        &= x
+    \end{aligned}
+\nonumber
+\end{equation}
+\end{document}
+

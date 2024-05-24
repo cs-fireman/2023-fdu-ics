@@ -1,0 +1,92 @@
+\documentclass[UTF8,a4paper,10pt, twocolumn]{ctexart}
+\usepackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=2.50cm]{geometry}
+
+% -- text font --
+% compile using Xelatex
+
+%\setmainfont{Microsoft YaHei}  % 微软雅黑
+%\setmainfont{YouYuan}  % 幼圆    
+%\setmainfont{NSimSun}  % 新宋体
+%\setmainfont{KaiTi}    % 楷体
+%\setmainfont{SimSun}   % 宋体
+%\setmainfont{SimHei}   % 黑体
+
+\usepackage{times}
+%\usepackage{mathpazo}
+%\usepackage{fourier}
+%\usepackage{charter}
+%\usepackage{helvet}
+
+\usepackage{amsmath, amsfonts, amssymb} % math equations, symbols
+\usepackage[english]{babel}
+\usepackage{color}      % color content
+\usepackage{graphicx}   % import figures
+\usepackage{url}        % hyperlinks
+\usepackage{bm}         % bold type for equations
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fancyhdr}   % 设置页眉、页脚
+%\pagestyle{fancy}
+\lhead{}
+\chead{}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\usepackage{hyperref}   % bookmarks
+\hypersetup{colorlinks, bookmarks, unicode} % unicode
+
+
+\title{中文标题Title}
+\author{ 作者 Author \thanks{作者介绍 Brief introduction} }
+\date{\today}
+
+\begin{document}
+    \maketitle
+    \thispagestyle{fancy}
+
+\section{章节 Section} \label{sec:one}
+    this is the Section \ref{sec:one}
+    输入中文内容 Your text goes here. \\
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ \\
+    $\mathcal{ABCDEFGHIJKLMNOPQRSTUVWXYZ}$ \\
+    abcdefghijklmnopqrstuvwxyz \\
+    The quick brown fox jumps over the lazy dog.\\
+    1234567890
+    \begin{align}
+		& ABCDEFGHIJKLMNOPQRSTUVWXYZ \label{eq:alphabet} \\
+		& abcdefghijklmnopqrstuvwxyz \\
+	& \alpha \beta \gamma \delta \epsilon \varepsilon \zeta \eta \theta \lambda \mu \nu \xi \pi \rho \sigma \tau \upsilon \phi \varphi \chi \psi \omega  
+	\end{align}
+    \begin{align}
+	 \begin{bmatrix}
+		1 & 2 \\
+		3 & 4 \\
+	\end{bmatrix}
+	 \begin{pmatrix}
+	1 & 2 \\
+	3 & 4 \\
+	\end{pmatrix}
+	 \begin{matrix}
+	1 & 2 \\
+	3 & 4 \\
+	\end{matrix}
+	\end{align}
+
+    \begin{equation}
+	A_{t+1} = \arg\min_A \ \mathcal{L}(A,E_t,\Delta\tau_t,W_t,b_t), \nonumber
+	\end{equation}
+
+    \begin{equation}
+	\begin{aligned} \label{eq:rasl}
+	\min_{A,E,\Delta \tau} \quad & \sum_{i=1}^{N}||A_i||_* + \lambda ||E_i||_1  \\
+	\mathrm{s.t.} \quad & D_i \circ \tau_i + \sum_{k=1}^{n_i} J_{ik} \Delta \tau_i \epsilon_k \epsilon_k^T = A_i + E_i, \\
+	& i = 1,2,\cdots,N. 
+	\end{aligned}
+	\end{equation}
+
+\end{document}
